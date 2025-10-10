@@ -1,6 +1,6 @@
 # UserForm:
 
-+ Name: UserForm1
++ Name: MatOps
 + Caption: Matrix ops
 
 

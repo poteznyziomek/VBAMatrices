@@ -198,6 +198,10 @@ Frame:
         + Name: cbMultipleDiff
         + Caption: Difference
 
+    CheckBox:
+        
+        + Name: cbMultipleSysLinSolve
+        + Caption: Solve a system
 
 CommandButton:
     

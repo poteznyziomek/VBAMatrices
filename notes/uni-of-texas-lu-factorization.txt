@@ -1,5 +1,0 @@
-https://stackoverflow.com/questions/63831789/divide-by-zero-error-if-diagonal-elements-are-0-in-doolittle-algorithm
-
-Gilbert Strang "Linear Algebra and Its Applications" 4th edition, page 41, the subchapter "Row Exchanges and Permutation Matrices".
-
-https://johnfoster.pge.utexas.edu/numerical-methods-book/LinearAlgebra_LU.html

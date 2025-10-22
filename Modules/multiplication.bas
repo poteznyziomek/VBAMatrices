@@ -12,7 +12,8 @@ Sub mat_mul(Optional matrix_range As Variant, Optional upper_left As Variant)
     Dim family() As Variant
     Dim dump_range As Range
     Dim sheet As Worksheet
-    Dim row_count As Long, col_count As Long
+    Dim row_count As Long, col_count As Long, width As Long, height As Long
+    Dim arr_1x1(1 To 1, 1 To 1)
     Set sheet = ActiveSheet
     
     If IsMissing(matrix_range) Then
@@ -48,14 +49,23 @@ Sub mat_mul(Optional matrix_range As Variant, Optional upper_left As Variant)
     'Pack the matrices into a family.
     ReDim family(1 To matrix_range.Areas.Count)
     For i = 1 To matrix_range.Areas.Count
-        family(i) = matrix_range.Areas(i)
+        If mat_dims(i, 1) = 1 And mat_dims(i, 2) = 1 Then 'A single cell needs to be packed as a 1 by 1 array.
+            arr_1x1(1, 1) = matrix_range.Areas(i).Value
+            family(i) = arr_1x1
+        Else
+            family(i) = matrix_range.Areas(i).Value
+        End If
     Next i
     
-    row_count = matrix_range.Rows.Count
-    col_count = matrix_range.Columns.Count
-    Set dump_range = sheet.Range(upper_left.Cells(1, 1 + HSPACE).Address, upper_left.Cells(row_count, col_count + HSPACE).Address)
+    height = mat_dims(1, 1)
+    width = mat_dims(UBound(mat_dims, 1), 2)
+    Set dump_range = sheet.Range(upper_left.Cells(1, 1 + HSPACE).Address, upper_left.Cells(height, width + HSPACE).Address)
     upper_left.Value = OPNAME
     dump_range.Value = dot_many(family)
+End Sub
+
+Sub call_mul()
+    Call mat_mul
 End Sub
 
 Function dot(mat_A As Variant, mat_B As Variant) As Variant
@@ -90,7 +100,7 @@ Private Function dot_many(family As Variant) As Variant
     Dim mat_dims() As Integer, temp_mat() As Double, result_mat As Variant
     Dim i As Integer, j As Integer
     
-    ReDim mat_dims(1 To UBound(family), 2)
+    ReDim mat_dims(LBound(family) To UBound(family), 2)
     For i = LBound(family) To UBound(family)
         mat_dims(i, 1) = UBound(family(i), 1)
         mat_dims(i, 2) = UBound(family(i), 2)
@@ -108,7 +118,3 @@ Private Function dot_many(family As Variant) As Variant
     Next i
     dot_many = result_mat
 End Function
-
-Sub call_muls()
-    Call mat_mul
-End Sub

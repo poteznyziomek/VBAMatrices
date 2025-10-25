@@ -101,6 +101,69 @@ Function gauss(mat_A As Variant, vec_b As Variant) As Variant
     gauss = Array(mat_A, vec_b)
 End Function
 
+Function gauss_pp(mat_A As Variant) As Variant
+    'Return a matrix containing an LU decomposition of mat_A and permutation vector p.
+    Dim i As Integer, j As Integer, k As Integer, n0 As Integer, n As Integer
+    Dim p() As Variant
+    Dim sign As Variant
+    Dim copy As Variant, maxw As Variant, maxe As Variant, akk As Variant
+    
+    n0 = LBound(mat_A, 1): n = UBound(mat_A, 1)
+    sign = 1 '1 if even number of row swaps else -1
+    ReDim p(n0 To n)
+    For i = n0 To n
+        p(i) = i
+    Next i
+    
+    'K03
+    For k = n0 To n
+        'K04
+        maxw = k
+        
+        'K05
+        maxe = Abs(mat_A(p(k), k))
+        
+        'K06
+        For i = k + 1 To n
+            'K07
+            If Abs(mat_A(p(i), k)) > maxe Then
+                maxw = i
+                maxe = Abs(mat_A(p(i), k))
+            End If
+        Next i
+        
+        'K08
+        If maxe = 0 Then 'or close to zero
+            Debug.Print "Singular matrix."
+            gauss_pp = -1
+            Exit Function
+        End If
+        
+        'K09
+        If maxw <> p(k) Then
+            sign = -sign
+            p = swap(p, k, maxw)
+        End If
+        
+        'K10
+        akk = mat_A(p(k), k)
+        
+        'K11
+        For i = k + 1 To n
+            mat_A(p(i), k) = mat_A(p(i), k) / akk
+        Next i
+        
+        'K12
+        For i = k + 1 To n
+            'K13
+            For j = k + 1 To n
+                mat_A(p(i), j) = mat_A(p(i), j) - mat_A(p(i), k) * mat_A(p(k), j)
+            Next j
+        Next i
+    Next k
+    gauss_pp = Array(mat_A, p)
+End Function
+
 Sub test_gauss_general()
     Dim n As Integer, i As Integer, j As Integer
     Dim mat_A() As Variant, vec_b() As Variant
@@ -114,8 +177,13 @@ Sub test_gauss_general()
     mat_A(3, 1) = 2: mat_A(3, 2) = 1: mat_A(3, 3) = -1: mat_A(3, 4) = -1: vec_b(3) = 1
     mat_A(4, 1) = 1: mat_A(4, 2) = -1: mat_A(4, 3) = 1: mat_A(4, 4) = 2: vec_b(4) = 3
     
+'    ReDim mat_A(1 To 3, 1 To 3)
+'    mat_A(1, 1) = 0: mat_A(1, 2) = 5: mat_A(1, 3) = 7.3333333333
+'    mat_A(2, 1) = 4: mat_A(2, 2) = 2: mat_A(2, 3) = 1
+'    mat_A(3, 1) = 2: mat_A(3, 2) = 7: mat_A(3, 3) = 9
     'result = gauss_basic(mat_A, vec_b)
-    result = gauss(mat_A, vec_b)
+'    result = gauss(mat_A, vec_b)
+    result = gauss_pp(mat_A)
     
     For i = 1 To n
         For j = 1 To n
@@ -124,7 +192,7 @@ Sub test_gauss_general()
     Next i
     
     Set dump_range = Selection
-    dump_range.Value = result(2)
+    dump_range.Value = result(0)
 End Sub
 
 Function pinv(p As Variant) As Variant

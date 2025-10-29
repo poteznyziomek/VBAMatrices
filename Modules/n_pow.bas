@@ -7,7 +7,6 @@ Const OPNAME As String = "Power N = "
 
 Sub mat_npow(nth As Integer, Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call a function to calculate nth power of a matrix and draw the result in an appropriate sheet.
-    Dim i As Integer
     Dim dump_range As Range
     Dim sheet As Worksheet
     Dim row_count As Long, col_count As Long
@@ -82,56 +81,4 @@ Private Function npow(mat_A As Variant, n As Integer) As Variant
     npow = dot(mat_A, y)
 End Function
 
-Sub test_call_npow()
-    Dim mat_A(1 To 3, 1 To 3) As Double, mat_B(1 To 3, 1 To 3) As Double
-    Dim i As Integer, j As Integer, k As Integer, n As Integer
-    Dim result As Variant
-    
-    'Matrix to be exponentiated.
-    k = 1
-    For i = 1 To 3
-        For j = 1 To 3
-            mat_A(i, j) = k
-            k = k + 1
-        Next j
-    Next i
-    
-    'Call npow
-    n = -1
-    result = npow(mat_A, n)
-    For i = 1 To 3
-        For j = 1 To 3
-            Debug.Print result(i, j)
-        Next j
-    Next i
-End Sub
 
-Private Function eye(n As Long) As Variant
-    'Return the identity matrix of degree n.
-    Dim return_arr() As Variant, i As Long, j As Long
-    ReDim return_arr(1 To n, 1 To n)
-    
-    For i = 1 To n
-        For j = 1 To n
-            If i = j Then
-                return_arr(i, j) = 1
-            Else
-                return_arr(i, j) = 0
-            End If
-        Next j
-    Next i
-    eye = return_arr
-End Function
-
-Sub test_eye()
-    Dim n As Long: n = 3
-    Dim i As Long, j As Long
-    Dim id As Variant
-    
-    id = eye(n)
-    For i = 1 To n
-        For j = 1 To n
-            Debug.Print id(i, j)
-        Next j
-    Next i
-End Sub

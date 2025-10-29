@@ -7,12 +7,12 @@ Const OPNAME As String = "Product"
 
 Sub mat_mul(Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call a function to calculate a product of multiple matrices and draw the result in an appropriate sheet.
-    Dim i As Integer ', j As Integer, k As Integer
+    Dim i As Integer
     Dim mat_dims() As Integer '(Nrows,Ncols) in mat_dims
     Dim family() As Variant
     Dim dump_range As Range
     Dim sheet As Worksheet
-    Dim row_count As Long, col_count As Long, width As Long, height As Long
+    Dim width As Long, height As Long
     Dim arr_1x1(1 To 1, 1 To 1)
     Set sheet = ActiveSheet
     
@@ -64,10 +64,6 @@ Sub mat_mul(Optional matrix_range As Variant, Optional upper_left As Variant)
     dump_range.Value = dot_many(family)
 End Sub
 
-Sub call_mul()
-    Call mat_mul
-End Sub
-
 Function dot(mat_A As Variant, mat_B As Variant) As Variant
     'Return the result of multiplying two matrices.
     Dim row_A As Integer, col_A As Integer, row_B As Integer, col_B As Integer
@@ -98,7 +94,7 @@ End Function
 Private Function dot_many(family As Variant) As Variant
     'Multiply matrices from family.
     Dim mat_dims() As Integer, temp_mat() As Double, result_mat As Variant
-    Dim i As Integer, j As Integer
+    Dim i As Integer
     
     ReDim mat_dims(LBound(family) To UBound(family), 2)
     For i = LBound(family) To UBound(family)

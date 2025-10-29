@@ -10,7 +10,7 @@ Public Sub LU(Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call the function for LU-decomposing a matrix_range and draw the result in an appropriate sheet.
     Dim row_count As Long, col_count As Long, i As Integer, j As Integer
     Dim LU_arr As Variant, p_t As Variant, L_arr() As Variant, U() As Variant
-    Dim sheet As Worksheet, L_range As Range, U_range As Range, dump_range As Range
+    Dim sheet As Worksheet, U_range As Range, dump_range As Range
     Set sheet = ActiveSheet
     
     If IsMissing(matrix_range) Then
@@ -25,15 +25,14 @@ Public Sub LU(Optional matrix_range As Variant, Optional upper_left As Variant)
         Set upper_left = sheet.Cells(sheet.UsedRange.Rows.Count + 1 + VSPACE, 1)
     End If
         
-    'Dimensions of the matrix_range
+    'Dimensions of the matrix_range.
     row_count = matrix_range.Rows.Count
     col_count = matrix_range.Columns.Count
     
-    'Define ranges for drawing
-'    Set L_range = sheet.Range(upper_left.Cells(1, 1 + HSPACE).Address, upper_left.Cells(row_count, col_count + HSPACE).Address)
+    'Define ranges for drawing.
     Set U_range = sheet.Range(upper_left.Cells(1, upper_left.Column + col_count + HSPACE + 1).Address, upper_left.Cells(row_count, 2 * col_count + HSPACE + 1).Address)
     
-    'Check if matrix_range is a square matrix
+    'Check if matrix_range is a square matrix.
     If row_count <> col_count Then
         upper_left.Value = OPNAME
         upper_left.Cells(1, 1 + HSPACE).Value = "Not a square matrix."
@@ -42,10 +41,7 @@ Public Sub LU(Optional matrix_range As Variant, Optional upper_left As Variant)
         upper_left.Value = OPNAME
     End If
     
-    'Transfer Values
-'    LU_arr = banachiewicz_lu(matrix_range.Value)
-'    L_range.Value = LU_arr(0)
-'    U_range.Value = LU_arr(1)
+    'Transfer values.
     LU_arr = gauss_pp(matrix_range.Value)
     p_t = permutation_matrix(permutation_inverse(LU_arr(1)))
     ReDim L(1 To row_count, 1 To col_count): ReDim U(1 To row_count, 1 To col_count)
@@ -63,29 +59,22 @@ Public Sub LU(Optional matrix_range As Variant, Optional upper_left As Variant)
             End If
         Next j
     Next i
-    'Draw P
-'    Set upper_left = Selection.Cells(1, width + 2)
-'    Set upper_left = Range(upper_left.Address, upper_left.Cells(height, width).Address)
+    
+    'Draw P.
     Set dump_range = sheet.Range(upper_left.Cells(1, 1 + HSPACE).Address, upper_left.Cells(row_count, col_count + HSPACE).Address)
     dump_range.Value = p_t
-    
-    'Draw L
+    'Draw L.
     Set dump_range = dump_range.Cells(1, col_count + 1 + MSPACE)
     Set dump_range = Range(dump_range.Address, dump_range.Cells(row_count, col_count).Address)
     dump_range.Value = L
-    
-    
-    'Draw U
+    'Draw U.
     Set dump_range = dump_range.Cells(1, col_count + 1 + MSPACE)
     Set dump_range = Range(dump_range.Address, dump_range.Cells(row_count, col_count).Address)
     dump_range.Value = U
 End Sub
 
-Sub call_LU()
-    Call LU
-End Sub
-
 Private Function banachiewicz_lu(mat As Variant) As Variant
+    'OBSOLETE.
     'Carry out Banachiewicz LU decomposition.
     Dim row_count As Long, col_count As Long, i As Long, j As Long, k As Long
     Dim L_array() As Double, U_array() As Double

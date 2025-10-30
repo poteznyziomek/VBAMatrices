@@ -104,19 +104,20 @@ Public Function gauss_pp(mat_A As Variant) As Variant
         p(i) = i
     Next i
     
-    For k = n0 To n - 1 '!!!!!!!!!!!!!!!!!!!
+    For k = n0 To n - 0 '!!!!!!!!!!!!!!!!!!!
         maxw = k
-        
         maxe = Abs(mat_A(p(k), k))
         
-        For i = k + 1 To n
+        For i = k + 1 To n - 1 '!!!!!!!!!!!!!!!
             If Abs(mat_A(p(i), k)) > maxe Then
                 maxw = i
                 maxe = Abs(mat_A(p(i), k))
             End If
         Next i
 
-        If maxw <> p(k) Then
+'        Debug.Print "k = " & k & ", maxw = " & maxw & ", p(k) = " & p(k)
+'        If maxw <> p(k) Then
+        If maxw <> k Then
             sign = -sign
             p = swap(p, k, maxw)
         End If
@@ -124,21 +125,24 @@ Public Function gauss_pp(mat_A As Variant) As Variant
         akk = mat_A(p(k), k)
         If akk <> 0 Then
         
-            For i = k + 1 To n
+            For i = k + 1 To n - 0 '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 mat_A(p(i), k) = mat_A(p(i), k) / akk
             Next i
             
-            For i = k + 1 To n
-                For j = k + 1 To n
+            For i = k + 1 To n - 0 '!!!!!!!!!!!!!!!!!!!!!!!!
+                For j = k + 1 To n - 0 '!!!!!!!!!!!!!!!!!
                     mat_A(p(i), j) = mat_A(p(i), j) - mat_A(p(i), k) * mat_A(p(k), j)
                 Next j
             Next i
         End If
     Next k
     gauss_pp = Array(mat_A, p, sign)
-    Debug.Print "end sign "; sign
+'    Debug.Print "end sign "; sign
 End Function
 
+Sub call_lu()
+    Call LU
+End Sub
 Function pinv(p As Variant) As Variant
     'For a permutation p return its inverse.
     Dim s() As Variant

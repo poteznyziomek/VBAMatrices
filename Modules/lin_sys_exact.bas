@@ -7,7 +7,7 @@ Const OPNAME As String = "linear system solution"
 
 Public Sub linear_system_solve(Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call the function for solving a system of linear equations and draw the result in an appropriate sheet.
-    Dim row_count As Long, i As Integer
+    Dim row_count As Long, col_count As Long, i As Integer
     Dim system_conditions As Boolean
     Dim exes() As String
     Dim gauss_result As Variant, LU As Variant
@@ -41,12 +41,14 @@ Public Sub linear_system_solve(Optional matrix_range As Variant, Optional upper_
     
     'Dump the result in the sheet.
     row_count = matrix_range.Rows.Count
+    col_count = matrix_range.Columns.Count
     
     upper_left.Value = OPNAME
     'Decompose the coefficient matrix.
-    LU = gauss_pp(matrix_range.Areas(1).Value) 'Holds a matrix containing both L and U, and a permutation vector p if input is invertible, else -1.
+    LU = gauss_pp(matrix_range.Areas(1).Value) 'Holds a matrix containing both L and U, and a permutation vector p.
+    gauss_result = lu_solve(LU, Application.Transpose(matrix_range.Areas(2).Value))
     
-    If TypeName(LU) = "Integer" Then
+    If TypeName(gauss_result) = "Integer" Then
         Set dump_range = sheet.Range(upper_left.Cells(1, 1 + HSPACE).Address)
         dump_range.Value = "No unique solutions."
     Else
@@ -59,37 +61,10 @@ Public Sub linear_system_solve(Optional matrix_range As Variant, Optional upper_
         dump_range.Value = Application.Transpose(exes)
         'Draw the result.
         Set dump_range = sheet.Range(upper_left.Cells(1, 2 + HSPACE).Address, upper_left.Cells(row_count, 2 + HSPACE).Address)
-        gauss_result = lu_solve(LU, Application.Transpose(matrix_range.Areas(2).Value))
+'        gauss_result = lu_solve(LU, Application.Transpose(matrix_range.Areas(2).Value))
         dump_range.Value = Application.Transpose(gauss_result)
     End If
 End Sub
-
-Function u_solve(U As Variant, b As Variant) As Variant
-    'OBSOLETE
-    'Return the solution to the system of linear equations with an upper triangular square matrix u.
-    Dim x() As Variant
-    Dim n0 As Integer, n As Integer, i As Integer, j As Integer, k As Integer
-    Dim m0 As Integer, m As Integer
-    
-    n0 = LBound(U, 1): n = UBound(U, 1)
-    m0 = LBound(U, 2): m = UBound(U, 2)
-    
-    If n - n0 + 1 <> m - m0 + 1 Then
-        Debug.Print "Not a square matrix."
-        u_solve = -1
-        Exit Function
-    End If
-    
-    ReDim x(1 To n - n0 + 1)
-    For i = n To 1 Step -1
-        x(i) = 0
-        For j = i + 1 To n
-            x(i) = x(i) + U(i, j) * x(j)
-        Next j
-        x(i) = (b(i) - x(i)) / U(i, i)
-    Next i
-    u_solve = x
-End Function
 
 Function lu_solve(LU As Variant, b As Variant) As Variant
     'Return the solution to the system Ax = b where A satisfies PA = LU.
@@ -116,7 +91,40 @@ Function lu_solve(LU As Variant, b As Variant) As Variant
         For j = i + 1 To n
             x(i) = x(i) + LU(0)(p(i), j) * x(j)
         Next j
-        x(i) = (y(i) - x(i)) / LU(0)(p(i), i)
+        'For a singular coefficient matrix LU(0)(p(i), i) is zero.
+        If LU(0)(p(i), i) = 0 Then
+            lu_solve = -1
+            Exit Function
+        Else
+            x(i) = (y(i) - x(i)) / LU(0)(p(i), i)
+        End If
     Next i
     lu_solve = x
 End Function
+
+Function u_solve(U As Variant, b As Variant) As Variant
+    'Return the solution to the system of linear equations with an upper triangular square matrix u.
+    Dim x() As Variant
+    Dim n0 As Integer, n As Integer, i As Integer, j As Integer, k As Integer, kk As Integer
+    Dim m0 As Integer, m As Integer
+    
+    n0 = LBound(U, 1): n = UBound(U, 1)
+    m0 = LBound(U, 2): m = UBound(U, 2)
+    
+    If n - n0 + 1 <> m - m0 + 1 Then
+        Debug.Print "Not a square matrix."
+        u_solve = -1
+        Exit Function
+    End If
+    
+    ReDim x(1 To n - n0 + 1)
+    For i = n To 1 Step -1
+        x(i) = 0
+        For j = i + 1 To n
+            x(i) = x(i) + U(i, j) * x(j)
+        Next j
+        x(i) = (b(i) - x(i)) / U(i, i)
+    Next i
+    u_solve = x
+End Function
+

@@ -10,7 +10,7 @@ Public Sub LU(Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call the function for LU-decomposing a matrix_range and draw the result in an appropriate sheet.
     Dim row_count As Long, col_count As Long, i As Integer, j As Integer
     Dim LU_arr As Variant, p_t As Variant, L_arr() As Variant, U() As Variant
-    Dim sheet As Worksheet, U_range As Range, dump_range As Range
+    Dim sheet As Worksheet, L_range As Range, U_range As Range, dump_range As Range
     Set sheet = ActiveSheet
     
     If IsMissing(matrix_range) Then

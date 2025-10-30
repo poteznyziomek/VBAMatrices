@@ -25,7 +25,7 @@ End Function
 Function gauss(mat_A As Variant, vec_b As Variant) As Variant
     'OBSOLETE.
     'Return a matrix and a vector after applying gaussian elimination with partial pivoting.
-    Dim L As Variant, p As Variant, kcolumn() As Variant, swap_count As Integer, temp As Variant
+    Dim L As Variant, p As Variant, kcolumn() As Variant, swap_count As Integer, pmatrix, temp As Variant
     Dim k As Integer, i As Integer, j As Integer, n As Integer, ii As Integer, ind_max As Integer
     n = UBound(mat_A, 1)
     
@@ -94,7 +94,7 @@ Public Function gauss_pp(mat_A As Variant) As Variant
     Dim i As Integer, j As Integer, k As Integer, n0 As Variant, n As Variant
     Dim p() As Variant
     Dim sign As Variant
-    Dim maxw As Variant, maxe As Variant, akk As Variant
+    Dim copy As Variant, maxw As Variant, maxe As Variant, akk As Variant
     
     n0 = LBound(mat_A, 1)
     n = UBound(mat_A, 1)
@@ -104,7 +104,7 @@ Public Function gauss_pp(mat_A As Variant) As Variant
         p(i) = i
     Next i
     
-    For k = n0 To n
+    For k = n0 To n - 1 '!!!!!!!!!!!!!!!!!!!
         maxw = k
         
         maxe = Abs(mat_A(p(k), k))
@@ -115,29 +115,39 @@ Public Function gauss_pp(mat_A As Variant) As Variant
                 maxe = Abs(mat_A(p(i), k))
             End If
         Next i
-        
-        If maxe = 0 Then 'or close to zero
-            Debug.Print "Singular matrix."
-            gauss_pp = -1
-            Exit Function
-        End If
-        
+
         If maxw <> p(k) Then
             sign = -sign
             p = swap(p, k, maxw)
         End If
         
         akk = mat_A(p(k), k)
+        If akk <> 0 Then
         
-        For i = k + 1 To n
-            mat_A(p(i), k) = mat_A(p(i), k) / akk
-        Next i
-        
-        For i = k + 1 To n
-            For j = k + 1 To n
-                mat_A(p(i), j) = mat_A(p(i), j) - mat_A(p(i), k) * mat_A(p(k), j)
-            Next j
-        Next i
+            For i = k + 1 To n
+                mat_A(p(i), k) = mat_A(p(i), k) / akk
+            Next i
+            
+            For i = k + 1 To n
+                For j = k + 1 To n
+                    mat_A(p(i), j) = mat_A(p(i), j) - mat_A(p(i), k) * mat_A(p(k), j)
+                Next j
+            Next i
+        End If
     Next k
     gauss_pp = Array(mat_A, p, sign)
+    Debug.Print "end sign "; sign
+End Function
+
+Function pinv(p As Variant) As Variant
+    'For a permutation p return its inverse.
+    Dim s() As Variant
+    Dim i As Integer
+    ReDim s(LBound(p) To UBound(p))
+    
+    For i = LBound(p) To UBound(p)
+        s(p(i)) = i
+    Next i
+    
+    pinv = s
 End Function

@@ -234,7 +234,7 @@ Private Sub UserForm_Initialize()
     'Single matrix frame
     cbSingleRank.Tag = "placeholder_sub"
     cbSingleLU.Tag = "LU"
-    cbSingleDet.Tag = "placeholder_sub"
+    cbSingleDet.Tag = "mat_det"
     cbSingleNil.Tag = "placeholder_sub"
     cbSingleEigen.Tag = "placeholder_sub"
     cbSinglePow.Tag = "mat_npow"

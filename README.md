@@ -22,7 +22,8 @@ More to come!
 2. [Examples.](#examples)
     1. [Linear systems](#linear-systems)
     2. [Exponentiation](#exponentiation)
-    3. [LU decomposition)(#lu-decomposition)
+    3. [LU decomposition](#lu-decomposition)
+    4. [Determinant](#determinant)
 
 ## How to use
 
@@ -38,13 +39,13 @@ To get started do the following:
 
 and select **show_MatOps**, then click **Add >>**. Additionally you can then select **Modify** and choose an icon (e.g. an identity matrix of deegre 2). Commit the changes by clicking the **OK** button.
 
-![Adding a button](figs/quick-access-toolbar-button.png)
+![Adding a button](figures/quick-access-toolbar-button.png)
 <br>
 *Figure 1: Adding a button to Quick Access Toolbar.*
 
 3. Now you are able to call the form from the **Quick Access Toolbar** anywhere you are in the workbook.
 
-![MatOps button](figs/mat-ops-button.png)
+![MatOps button](figures/mat-ops-button.png)
 <br>
 *Figure 2: MatOps button.*
 
@@ -86,7 +87,7 @@ Consider the following system of 4 equations in 4 unknowns:
 
 Write it in a matrix form:
 
-![Matrix form of a linear system](figs/linear-system-example.png)
+![Matrix form of a linear system](figures/linear-system-example.png)
 <br>
 *Figure 3: Matrix form of the system in Excel.*
 
@@ -94,19 +95,19 @@ Using the MatOps form select the two ranges as a multiple selection (either sepa
 a comma or dragging with a mouse and pressing down the CTRL button).
 
 
-![Button to enter input](figs/lin-sys-step-1.png)
+![Button to enter input](figures/lin-sys-step-1.png)
 <br>
 *Figure 4: **Select cells** button shows a dialog box for specyfing input.*
 
-![Selecting multiple ranges](figs/lin-sys-step-2.png)
+![Selecting multiple ranges](figures/lin-sys-step-2.png)
 <br>
 *Figure 5: Select two ranges: the matrix and the column vector respectively.*
 
-![Selecting appropriate options on the form](figs/lin-sys-step-3.png)
+![Selecting appropriate options on the form](figures/lin-sys-step-3.png)
 <br>
 *Figure 6: Select options on the form.*
 
-![The reuslt](figs/lin-sys-step-4.png)
+![The reuslt](figures/lin-sys-step-4.png)
 <br>
 *Figure 7: The result.*
 
@@ -118,19 +119,19 @@ a comma or dragging with a mouse and pressing down the CTRL button).
 Suppose you want to raise the matrix seen in the figure 8 to the 20th power. To do so follow
 the steps depicted in figures 9 and 10.
 
-![A 10 by 10 matrix](figs/exp-example-step-1.png)
+![A 10 by 10 matrix](figures/exp-example-step-1.png)
 <br>
 *Figure 8: A $`10 \times 10`$ matrix.*
 
-![A 10 by 10 matrix](figs/exp-example-step-2.png)
+![A 10 by 10 matrix](figures/exp-example-step-2.png)
 <br>
 *Figure 9: Select the range.*
 
-![A 10 by 10 matrix](figs/exp-example-step-3.png)
+![A 10 by 10 matrix](figures/exp-example-step-3.png)
 <br>
 *Figure 10: Select appropriate operation.*
 
-![A 10 by 10 matrix](figs/exp-example-step-4.png)
+![A 10 by 10 matrix](figures/exp-example-step-4.png)
 <br>
 *Figure 11: The result.*
 
@@ -144,18 +145,35 @@ of the decomposition is given in this form.
 
 Suppose you want to find an LU decomposition of the matrix in the figure 12.
 
-![A matrix before LU decomposition](figs/lu-example-1.png)
+![A matrix before LU decomposition](figures/lu-example-1.png)
 <br>
 *Figure 12: A matrix before LU decomposition.*
 
 Consult the figure 13 below.
 
-![Select the range and appropriate action.](figs/lu-example-2.png)
+![Select the range and appropriate action.](figures/lu-example-2.png)
 <br>
 *Figure 13: Select appropriate action.*
 
 The result in the figure 14 consists of the matrices $`P^{-1}`$, $`L`$, $`U`$ respectively.
-![The result.](figs/lu-example-3.png)
+![The result.](figures/lu-example-3.png)
 <br>
 *Figure 14: Matrices $`P^{-1}`$, $`L`$, $`U`$.*
+
+### Determinant
+
+In order to compute the determinant of a matrix refer to the figures 15 - 17.
+![The result.](figures/determinant-example-1.png)
+<br>
+*Figure 15: A 10 by 10 matrix.*
+
+![The result.](figures/determinant-example-2.png)
+<br>
+*Figure 16: Choose appropriate aciotn.*
+
+![The result.](figures/determinant-example-3.png)
+<br>
+*Figure 17: The result.*
+
+
 

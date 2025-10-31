@@ -22,6 +22,7 @@ More to come!
 2. [Examples.](#examples)
     1. [Linear systems](#linear-systems)
     2. [Exponentiation](#exponentiation)
+    3. [LU decomposition)(#lu-decomposition)
 
 ## How to use
 
@@ -132,4 +133,29 @@ the steps depicted in figures 9 and 10.
 ![A 10 by 10 matrix](figs/exp-example-step-4.png)
 <br>
 *Figure 11: The result.*
+
+### LU decomposition
+
+For any square matrix $`A`$ there exist matrices $`P`$, $`L`$ and $`U`$ such that $`PA = LU`$,
+where $`P`$ is a permutation matrix, $`L`$ is a lower triangular matrix with ones on the main
+diagonal, and $`U`$ is an upper triangular matrix. This is what we mean by LU decomposition
+(with $`P`$ quietly implied). Note that $`PA = LU`$ iff $`A = P^{-1}LU`$. In Excel the result
+of the decomposition is given in this form.
+
+Suppose you want to find an LU decomposition of the matrix in the figure 12.
+
+![A matrix before LU decomposition](figs/lu-example-1.png)
+<br>
+*Figure 12: A matrix before LU decomposition.*
+
+Consult the figure 13 below.
+
+![Select the range and appropriate action.](figs/lu-example-2.png)
+<br>
+*Figure 13: Select appropriate action.*
+
+The result in the figure 14 consists of the matrices $`P^{-1}`$, $`L`$, $`U`$ respectively.
+![The result.](figs/lu-example-3.png)
+<br>
+*Figure 14: Matrices $`P^{-1}`$, $`L`$, $`U`$.*
 

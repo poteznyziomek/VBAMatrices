@@ -144,6 +144,10 @@ canceled:
 End Sub
 
 
+Private Sub frSingle_Click()
+
+End Sub
+
 Private Sub obSingleMat_Click()
     Dim control As Variant
     
@@ -238,6 +242,7 @@ Private Sub UserForm_Initialize()
     cbSingleNil.Tag = "placeholder_sub"
     cbSingleEigen.Tag = "placeholder_sub"
     cbSinglePow.Tag = "mat_npow"
+    cbSingleInverse.Tag = "mat_inv"
     'Trigonometric frame
     cbSingleSin.Tag = "placeholder_sub"
     cbSingleCos.Tag = "placeholder_sub"

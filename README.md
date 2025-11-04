@@ -6,6 +6,8 @@ Currently supported operations are:
 
 + LU decomposition
 + Exponentiation
++ Determinant
++ Inverse
 + Sum
 + Difference
 + Product
@@ -24,6 +26,7 @@ More to come!
     2. [Exponentiation](#exponentiation)
     3. [LU decomposition](#lu-decomposition)
     4. [Determinant](#determinant)
+    5. [Inverse](#inverse)
 
 ## How to use
 
@@ -169,11 +172,38 @@ In order to compute the determinant of a matrix refer to the figures 15 - 17.
 
 ![The result.](figures/determinant-example-2.png)
 <br>
-*Figure 16: Choose appropriate aciotn.*
+*Figure 16: Choose appropriate action.*
 
 ![The result.](figures/determinant-example-3.png)
 <br>
 *Figure 17: The result.*
 
 
+### Inverse
 
+Consider the following matrix:
+
+```math
+    \begin{bmatrix}
+        1 & 2 & 3 & \dots & n\\
+        2 & 3 & 4 & \dots & 1\\
+        3 & 4 & 5 & \dots & 2\\
+        \vdots & \vdots & \vdots & \ddots & \vdots\\
+        n & 1 & 2 & \dots & n - 1
+    \end{bmatrix},
+```
+where $`n \in \mathbb{N}`$. We are going to evaluate the inverse of this matrix for $`n = 20`$.
+
+![The matrix.](figures/inverse-example-1.png)
+<br>
+*Figure 18: The matrix.*
+
+![The form.](figures/inverse-example-2.png)
+<br>
+*Figure 18: The form.*
+
+![The result.](figures/inverse-example-3.png)
+<br>
+*Figure 19: The result.*
+
+The reader is encouraged to verify the result by computing the appropriate product.

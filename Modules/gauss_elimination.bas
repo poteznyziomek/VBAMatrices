@@ -108,7 +108,7 @@ Public Function gauss_pp(mat_A As Variant) As Variant
         maxw = k
         maxe = Abs(mat_A(p(k), k))
         
-        For i = k + 1 To n - 1 '!!!!!!!!!!!!!!!
+        For i = k + 1 To n - 0 '!!!!!!!!!!!!!!!
             If Abs(mat_A(p(i), k)) > maxe Then
                 maxw = i
                 maxe = Abs(mat_A(p(i), k))

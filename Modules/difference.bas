@@ -56,16 +56,16 @@ Sub mat_sub(Optional matrix_range As Variant, Optional upper_left As Variant)
     dump_range.Value = subtract_two(matrix_range.Areas(1).Value, matrix_range.Areas(2).Value)
 End Sub
 
-Private Function subtract_two(mat_A As Variant, mat_B As Variant) As Variant
+Function subtract_two(mat_A As Variant, mat_B As Variant) As Variant
     'Subtract mat_B from mat_A.
     Dim i As Integer, j As Integer
-    Dim n_row As Integer, n_col As Integer
+    Dim m0 As Integer, m As Integer, n0 As Integer, n As Integer
     Dim result_mat() As Variant
-    n_row = UBound(mat_A, 1): n_col = UBound(mat_A, 2)
-    ReDim result_mat(1 To n_row, 1 To n_col)
     
-    For i = 1 To n_row
-        For j = 1 To n_col
+    m0 = LBound(mat_A, 1): m = UBound(mat_A, 1): n0 = LBound(mat_A, 2): n = UBound(mat_A, 2)
+    ReDim result_mat(m0 To m, n0 To n)
+    For i = m0 To m
+        For j = n0 To n
             result_mat(i, j) = mat_A(i, j) - mat_B(i, j)
         Next j
     Next i

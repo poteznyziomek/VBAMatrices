@@ -37,7 +37,7 @@ End Function
 
 Function isclose(a As Double, b As Double, Optional rel_tol, Optional abs_tol) As Boolean
     'Return True if a and b are close to each other and False otherwise.
-    Dim domain_condition As Boolean
+    Dim numeric_condition As Boolean, domain_condition As Boolean
     
     If IsMissing(rel_tol) Then rel_tol = RELTOLDEFAULT
     If IsMissing(abs_tol) Then abs_tol = ABSTOLDEFAULT
@@ -64,7 +64,7 @@ Public Function count_report_sheets(sought_name As String) As Integer
 
     count_report_sheets = 0
     For Each sheet In book.Worksheets
-        If VBA.Strings.InStr(Start:=1, String1:=sheet.name, String2:=sought_name, Compare:=vbTextCompare) > 0 _
+        If VBA.Strings.InStr(start:=1, String1:=sheet.name, String2:=sought_name, Compare:=vbTextCompare) > 0 _
           And IsNumeric(Right(sheet.name, 1)) Then
               count_report_sheets = count_report_sheets + 1
         End If
@@ -81,7 +81,7 @@ Public Function create_report_sheet_name(preff As String) As String
     'Return a string of the form "pref N" where N is a positive integer.
     Dim no_reports As Integer, i As Integer
     Dim report_numbers() As Integer
-    Dim suff As String
+    Dim new_report_name As String, suff As String
     Dim sheet As Worksheet
     Dim book As Workbook
     Set book = ActiveWorkbook
@@ -93,7 +93,7 @@ Public Function create_report_sheet_name(preff As String) As String
         i = 1
         For Each sheet In book.Worksheets
             suff = Mid(sheet.name, Len(preff) + 1)
-            If VBA.Strings.InStr(Start:=1, String1:=sheet.name, String2:=preff, Compare:=vbTextCompare) > 0 _
+            If VBA.Strings.InStr(start:=1, String1:=sheet.name, String2:=preff, Compare:=vbTextCompare) > 0 _
               And IsNumeric(suff) Then
                   report_numbers(i) = CInt(suff)
                   i = i + 1
@@ -128,12 +128,12 @@ Function gen_eye(nstart As Variant, nend As Variant, mstart As Variant, mend As 
     Dim return_arr() As Variant, i As Long, j As Long
     ReDim return_arr(nstart To nend, mstart To mend)
     
-    For i = nstart To nend
-        For j = mstart To mend
+    For i = 0 To nend - nstart
+        For j = 0 To mend - mstart
             If i = j Then
-                return_arr(i, j) = 1#
+                return_arr(nstart + i, mstart + j) = 1#
             Else
-                return_arr(i, j) = 0#
+                return_arr(nstart + i, mstart + j) = 0#
             End If
         Next j
     Next i
@@ -172,6 +172,7 @@ End Function
 Function range_gen(start_num As Variant, n As Integer, Optional step = 1, Optional start_ind = 0) As Variant
     'Return an n-element array with elements
     'arr(k) = start_num + i * step, where start_ind <= k <= n + start_ind - 1 and 0 <= i <= n - 1.
+    
     Dim i As Integer, k As Integer
     Dim arr() As Variant
     
@@ -254,4 +255,72 @@ Function argmax(arr As Variant) As Variant
             Exit Function
         End If
     Next i
+End Function
+
+Function mtranspose(mat_A As Variant) As Variant
+    'Return the transpose of the matrix mat_A.
+    Dim n0 As Integer, n As Integer
+    Dim m0 As Integer, m As Integer
+    Dim i As Integer, j As Integer
+    Dim trans() As Variant
+    
+    n0 = LBound(mat_A, 1): n = UBound(mat_A, 1)
+    m0 = LBound(mat_A, 2): m = UBound(mat_A, 2)
+    ReDim trans(m0 To m, n0 To n)
+    For i = n0 To n
+        For j = m0 To m
+            trans(j, i) = mat_A(i, j)
+        Next j
+    Next i
+    mtranspose = trans
+End Function
+
+Function sum_of_squares(v As Variant, Optional nstart As Variant, Optional nstop As Variant) As Variant
+    'Return the partial sum of squares of a column vector v.
+    Dim m0 As Integer, m As Integer, j As Integer, i As Integer
+    
+    m0 = LBound(v, 1): m = UBound(v, 1): j = LBound(v, 2)
+    If IsMissing(nstart) Then nstart = m0
+    If IsMissing(nstop) Then nstop = m
+
+    sum_of_squares = 0
+    For i = nstart To nstop
+        sum_of_squares = sum_of_squares + v(i, j) ^ 2
+    Next i
+End Function
+
+Function scalar_times_matrix(alpha As Variant, a As Variant) As Variant
+    'Return a matrix.
+    Dim m0 As Integer, m As Integer, n0 As Integer, n As Integer
+    Dim i As Integer, j As Integer
+    Dim alpha_m()
+    
+    m0 = LBound(a, 1): m = UBound(a, 1): n0 = LBound(a, 2): n = UBound(a, 2)
+    ReDim alpha_m(m0 To m, n0 To n)
+    
+    For i = m0 To m
+        For j = n0 To n
+            alpha_m(i, j) = alpha * a(i, j)
+        Next j
+    Next i
+    scalar_times_matrix = alpha_m
+End Function
+
+Function submatrix(a As Variant, Optional mstart As Variant, Optional mend As Variant, Optional nstart As Variant, Optional nend As Variant) As Variant
+    'Return a submatrix a(mstart:mend, nstart:nend).
+    Dim i As Integer, j As Integer
+    Dim result() As Variant
+    
+    If IsMissing(mstart) Then mstart = LBound(a, 1)
+    If IsMissing(mend) Then mend = UBound(a, 1)
+    If IsMissing(nstart) Then nstart = LBound(a, 2)
+    If IsMissing(nend) Then nend = UBound(a, 2)
+    
+    ReDim result(mstart To mend, nstart To nend)
+    For i = mstart To mend
+        For j = nstart To nend
+            result(i, j) = a(i, j)
+        Next j
+    Next i
+    submatrix = result
 End Function

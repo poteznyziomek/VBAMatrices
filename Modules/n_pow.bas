@@ -7,6 +7,7 @@ Const OPNAME As String = "Power N = "
 
 Sub mat_npow(nth As Integer, Optional matrix_range As Variant, Optional upper_left As Variant)
     'Call a function to calculate nth power of a matrix and draw the result in an appropriate sheet.
+    Dim i As Integer
     Dim dump_range As Range
     Dim sheet As Worksheet
     Dim row_count As Long, col_count As Long

@@ -140,7 +140,7 @@ Private Sub cbSelectCells_Click()
     lblSelectedCells.Caption = caption_text
     
 canceled:
-    Me.show
+    Me.Show
 End Sub
 
 
@@ -239,7 +239,7 @@ Private Sub UserForm_Initialize()
     cbSingleRank.Tag = "placeholder_sub"
     cbSingleLU.Tag = "LU"
     cbSingleDet.Tag = "mat_det"
-    cbSingleNil.Tag = "placeholder_sub"
+    cbSingleQR.Tag = "QR"
     cbSingleEigen.Tag = "placeholder_sub"
     cbSinglePow.Tag = "mat_npow"
     cbSingleInverse.Tag = "mat_inv"

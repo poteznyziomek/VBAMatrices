@@ -12,6 +12,7 @@ Currently supported operations are:
 + Difference
 + Product
 + Solving a system of $`n`$ linear equations in $`n`$ unknowns
++ QR decomposition
 
 More to come!
 
@@ -27,6 +28,7 @@ More to come!
     3. [LU decomposition](#lu-decomposition)
     4. [Determinant](#determinant)
     5. [Inverse](#inverse)
+    6. [QR decomposition](#qr-decomposition)
 
 ## How to use
 
@@ -207,3 +209,27 @@ where $`n \in \mathbb{N}`$. We are going to evaluate the inverse of this matrix 
 *Figure 19: The result.*
 
 The reader is encouraged to verify the result by computing the appropriate product.
+
+### QR decomposition
+
+Given a matrix $`A \in \mathbb{R}^{m\times n}`$ with $`m \ge n`$ this routine computes matrices $`Q \in \mathbb{R}^{m\times m}`$ and $`R \in \mathbb{R}^{m\times n}`$ such that
+```math
+    A = QR, \quad QQ^t = Q^tQ = I_m
+```
+and $`R`$ is upper triangular.
+
+Consider the example shown in figures 20-22.
+
+![The input matrix.](figures/qr-example-1.png)
+<br>
+*Figure 20: The input matrix.*
+
+![The form.](figures/qr-example-2.png)
+<br>
+*Figure 20: The form.*
+
+![The result.](figures/qr-example-3.png)
+<br>
+*Figure 20: The result.*
+
+The reader is encouraged is compute the product $`QR`$ and compare it with the input matrix.

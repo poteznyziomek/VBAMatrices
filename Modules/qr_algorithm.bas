@@ -66,7 +66,8 @@ Function house(x As Variant) As Variant
     If sigma = 0 And x1 >= 0 Then
         beta = 0
     ElseIf sigma = 0 And x1 < 0 Then
-        beta = -2
+'        beta = -2
+        beta = 2
     Else
         mu = Sqr(x1 * x1 + sigma)
         If x1 <= 0 Then
@@ -104,6 +105,7 @@ Function householder_qr(a As Variant) As Variant
         For k = j To m
             x(k, j) = a(k, j)
         Next k
+
         v_and_beta = house(x)
         
         'Carry out the update: A(j:m,j:n) = (I - beta * v @ v.T) @ A(j:m,j:n)

@@ -232,4 +232,4 @@ Consider the example shown in figures 20-22.
 <br>
 *Figure 20: The result.*
 
-The reader is encouraged is compute the product $`QR`$ and compare it with the input matrix.
+The reader is encouraged to compute the product $`QR`$ and compare it with the input matrix.

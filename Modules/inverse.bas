@@ -57,7 +57,6 @@ Function inv(mat_A As Variant) As Variant
     Dim m As Variant, p As Variant, pinv As Variant
     Dim n0 As Integer, n As Integer, j As Integer, i As Integer
     Dim yj As Variant
-'    Dim ej() As Variant
     Dim result() As Variant
     
     m = gauss_pp(mat_A)
@@ -66,11 +65,9 @@ Function inv(mat_A As Variant) As Variant
     n0 = LBound(m, 1)
     n = UBound(m, 1)
     pinv = permutation_inverse(p)
-'    ReDim ej(n0 To n)
     ReDim result(n0 To n, n0 To n)
     
     For j = n0 To n
-'        yj = forward_substitution(m, p, ej)
         yj = forward_substitution(m, p, j)
         yj = backward_substitution(m, p, yj) 'Imagine that we're assigning to xj.
         'Fill the j-th column of result
@@ -87,59 +84,16 @@ Function inv(mat_A As Variant) As Variant
     inv = result
 End Function
 
-Sub test_inv()
-    Dim U(1 To 3, 1 To 3), p(1 To 3)
-    Dim result As Variant
-    Dim a(1 To 3, 1 To 3), m As Variant, perm As Variant
-    Dim i As Integer, j As Integer
-    
-'    L(1, 1) = 1: L(1, 2) = 0: L(1, 3) = 0
-'    L(2, 1) = 2: L(2, 2) = 1: L(2, 3) = 0
-'    L(3, 1) = 3: L(3, 2) = 4: L(3, 3) = 1
-'    p(1) = 1: p(2) = 2: p(3) = 3
-'    ej(1) = 0: ej(2) = 0: ej(3) = 1
-
-'    U(1, 1) = 0.333333333333333: U(1, 2) = 0.25: U(1, 3) = 0.2
-'    U(2, 1) = 0: U(2, 2) = 0.0125: U(2, 3) = 1.66666666666666E-02
-'    U(3, 1) = 0: U(3, 2) = 0: U(3, 3) = 0.866666666666669
-'    p(1) = 1: p(2) = 2: p(3) = 3
-'    y1(1) = 1: y1(2) = -0.75: y1(3) = 36
-'    y2(1) = 0: y2(2) = 1: y2(3) = -50
-'    y3(1) = 0: y3(2) = 0: y3(3) = 1
-    
-    a(1, 1) = 0.25: a(1, 2) = 0.2: a(1, 3) = 0.166666666666667
-    a(2, 1) = 0.333333333333333: a(2, 2) = 0.25: a(2, 3) = 0.2
-    a(3, 1) = 0.5: a(3, 2) = 1: a(3, 3) = 2
-    
-    
-    result = inv(a)
-    Selection.Value = result
-    For i = 1 To 3
-        For j = 1 To 3
-'            Debug.Print result(i, j)
-        Next j
-    Next i
-End Sub
-
 Function forward_substitution(m As Variant, p As Variant, j As Variant) As Variant
     'Solve the system L y_j = P e_j for y_j, where e_j has 1 at index j and zeros everywhere else.
     Dim n0 As Integer, n As Integer, i As Integer, k As Integer, nn As Integer
     Dim yj() As Variant
     
+    nn = j
     n0 = LBound(m, 1)
     n = UBound(m, 1)
     ReDim yj(n0 To n)
-    
-    'Find the index of the 1 in ej.
-'    For i = n0 To n
-'        If ej(p(i)) = 1 Then
-'            nn = p(i)
-'            Exit For
-'        End If
-'    Next i
-'    nn = p(j)
-    nn = j
-    
+
     'Fill the first nn-1 entries of yj with zeros.
     For i = n0 To nn - 1
         yj(i) = 0
@@ -183,74 +137,3 @@ Function backward_substitution(m As Variant, p As Variant, yj As Variant) As Var
     Next i
     backward_substitution = xj
 End Function
-
-Sub test_backward_sub()
-    Dim U(1 To 3, 1 To 3), p(1 To 3), xj As Variant
-    Dim y1(1 To 3) As Variant, y2(1 To 3) As Variant, y3(1 To 3) As Variant
-    Dim a(1 To 3, 1 To 3), m As Variant, perm As Variant
-    Dim i As Integer
-    
-'    L(1, 1) = 1: L(1, 2) = 0: L(1, 3) = 0
-'    L(2, 1) = 2: L(2, 2) = 1: L(2, 3) = 0
-'    L(3, 1) = 3: L(3, 2) = 4: L(3, 3) = 1
-'    p(1) = 1: p(2) = 2: p(3) = 3
-'    ej(1) = 0: ej(2) = 0: ej(3) = 1
-
-    U(1, 1) = 0.333333333333333: U(1, 2) = 0.25: U(1, 3) = 0.2
-    U(2, 1) = 0: U(2, 2) = 0.0125: U(2, 3) = 1.66666666666666E-02
-    U(3, 1) = 0: U(3, 2) = 0: U(3, 3) = 0.866666666666669
-    p(1) = 1: p(2) = 2: p(3) = 3
-    y1(1) = 1: y1(2) = -0.75: y1(3) = 36
-    y2(1) = 0: y2(2) = 1: y2(3) = -50
-    y3(1) = 0: y3(2) = 0: y3(3) = 1
-    
-'    a(1, 1) = 0.25: a(1, 2) = 0.2: a(1, 3) = 0.166666666666667
-'    a(2, 1) = 0.333333333333333: a(2, 2) = 0.25: a(2, 3) = 0.2
-'    a(3, 1) = 0.5: a(3, 2) = 1: a(3, 3) = 2
-'    m = gauss_pp(a)
-'    perm = m(1)
-'    m = m(0)
-    
-    xj = backward_substitution(U, p, y3)
-    For i = 1 To 3
-'        Debug.Print ej(perm(i))
-'        Debug.Print perm(i)
-        Debug.Print xj(i)
-    Next i
-End Sub
-
-Sub test_forward_sub()
-    Dim L(1 To 3, 1 To 3), p(1 To 3), ej(1 To 3), yj As Variant
-    Dim a(1 To 3, 1 To 3), m As Variant, perm As Variant
-    Dim i As Integer
-    
-'    L(1, 1) = 1: L(1, 2) = 0: L(1, 3) = 0
-'    L(2, 1) = 2: L(2, 2) = 1: L(2, 3) = 0
-'    L(3, 1) = 3: L(3, 2) = 4: L(3, 3) = 1
-'    p(1) = 1: p(2) = 2: p(3) = 3
-'    ej(1) = 0: ej(2) = 0: ej(3) = 1
-
-    L(1, 1) = 1: L(1, 2) = 0: L(1, 3) = 0
-    L(2, 1) = 0.75: L(2, 2) = 1: L(2, 3) = 0
-    L(3, 1) = 1.5: L(3, 2) = 50: L(3, 3) = 1
-    p(1) = 1: p(2) = 2: p(3) = 3
-    ej(1) = 0: ej(2) = 0: ej(3) = 1
-    
-    a(1, 1) = 0.25: a(1, 2) = 0.2: a(1, 3) = 0.166666666666667
-    a(2, 1) = 0.333333333333333: a(2, 2) = 0.25: a(2, 3) = 0.2
-    a(3, 1) = 0.5: a(3, 2) = 1: a(3, 3) = 2
-    m = gauss_pp(a)
-    perm = m(1)
-    m = m(0)
-    
-    yj = forward_substitution(m, perm, ej)
-    For i = 1 To 3
-'        Debug.Print ej(perm(i))
-'        Debug.Print perm(i)
-        Debug.Print yj(i)
-    Next i
-End Sub
-
-Sub call_lu()
-    Call LU
-End Sub
